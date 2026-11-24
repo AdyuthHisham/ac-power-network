@@ -6,7 +6,7 @@ Course project for *Linear Control System Design* (SSY285), Nov 2024 - Jan 2025.
 
 ## TLDR
 
-![Animation: a noisy load-voltage sensor, the true load voltage and the Kalman estimate follow a 5 Hz reference; the lower panel shows the estimate error staying smaller than the sensor error.](media/hero_lqg.gif)
+![Animation: four stacked panels: the true load voltage following a 5 Hz reference, the noisy sensor, the Kalman estimate, and the estimate error staying smaller than the sensor error.](media/hero_lqg.gif)
 
 - **Problem.** Two transmission lines (100 km and 200 km) feed a series RL load from two 50 Hz, 10 kV sources. The load voltage is the output; the load voltage and load current are measured with noise.
 - **Approach.** 4-state physical model, linearisation and pole/zero analysis, controllability and observability tests for any load, ZOH discretisation at 5 ms, discrete Kalman filter, LQR, and the two combined (LQG) with a feed-forward gain.
@@ -103,11 +103,6 @@ Limitations:
 - The Simulink figure is cropped from the E3 report (command in `docs/results.md`); the report itself is not included.
 - The report gives no value for `K_FF`; the Python simulation uses a minimum-norm DC feed-forward. The tracking numbers above are from that simulation, not from the report.
 - Known differences from the reports (`Bd` row 4, LQR gain within 1.5 %, Kalman gain naming): see `docs/results.md` and `docs/report_comparison.md`.
-
-## Team members
-
-- Adyuth Hisham (repo author; contributed across E1-E3, the split between members is not recorded)
-- Two teammates (names withheld)
 
 ## License
 

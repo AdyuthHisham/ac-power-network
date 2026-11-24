@@ -138,25 +138,28 @@ mc = {"figure.facecolor": "#f6f7f9", "axes.facecolor": "#f6f7f9", "savefig.facec
 with mpl.rc_context(mc):
     step, T_GIF = 8, 4.0
     idx = np.arange(0, int(T_GIF / TS), step)
-    fig, ax = plt.subplots(2, 1, figsize=(8, 4.6), sharex=True, gridspec_kw=dict(height_ratios=[3, 1.2]))
-    ax[0].set(xlim=(0, T_GIF), ylim=(-2300, 2300), ylabel="load voltage (V)")
-    ax[1].set(ylim=(-900, 900), xlabel="time (s)", ylabel="error (V)")
-    ax[0].set_title("LQG on the AC power network: Kalman estimate vs noisy sensor", fontsize=11)
+    fig, ax = plt.subplots(4, 1, figsize=(8, 7.2), sharex=True, gridspec_kw=dict(height_ratios=[2, 2, 2, 1.3]))
+    titles = ["1. Controller output follows the reference", "2. Noisy sensor (what the controller is given)",
+              "3. Kalman estimate (what the controller uses)", "4. Error against the true load voltage"]
+    for a, ti in zip(ax, titles):
+        a.set(xlim=(0, T_GIF), ylim=(-2300, 2300), ylabel="V"); a.set_title(ti, fontsize=9, loc="left"); a.grid(alpha=0.25)
+    ax[3].set(ylim=(-900, 900), xlabel="time (s)", ylabel="error (V)")
     l_r, = ax[0].plot([], [], "--", color="#555", lw=1.2, label="reference (1 kV, 5 Hz)")
-    l_y, = ax[0].plot([], [], color=OI["sky"], lw=0.7, label="noisy measurement")
     l_x, = ax[0].plot([], [], color=OI["blue"], lw=1.6, label="true load voltage")
-    l_e, = ax[0].plot([], [], color=OI["verm"], lw=1.6, label="Kalman estimate")
-    ax[0].legend(ncol=2, fontsize=8, loc="lower left")
-    e_y, = ax[1].plot([], [], color=OI["sky"], lw=0.7, label="measurement error")
-    e_x, = ax[1].plot([], [], color=OI["verm"], lw=1.2, label="estimate error")
-    ax[1].legend(ncol=2, fontsize=8, loc="lower left")
-    for a in ax: a.grid(alpha=0.25)
+    l_y, = ax[1].plot([], [], color=OI["sky"], lw=0.8, label="noisy measurement")
+    l_e, = ax[2].plot([], [], color=OI["verm"], lw=1.6, label="Kalman estimate")
+    e_y, = ax[3].plot([], [], color=OI["sky"], lw=0.7, label="measurement error")
+    e_x, = ax[3].plot([], [], color=OI["verm"], lw=1.2, label="estimate error")
+    ax[0].legend(ncol=2, fontsize=7, loc="lower left")
+    ax[3].legend(ncol=2, fontsize=7, loc="lower left")
+    fig.tight_layout()
 
     def upd(f):
         j = idx[f] + 1
-        l_r.set_data(t[:j], r[:j]); l_y.set_data(t[:j], Y[:j, 0]); l_x.set_data(t[:j], X[:j, 3]); l_e.set_data(t[:j], XC[:j, 3])
+        l_r.set_data(t[:j], r[:j]); l_x.set_data(t[:j], X[:j, 3]); l_y.set_data(t[:j], Y[:j, 0])
+        l_e.set_data(t[:j], XC[:j, 3])
         e_y.set_data(t[:j], Y[:j, 0] - X[:j, 3]); e_x.set_data(t[:j], XC[:j, 3] - X[:j, 3])
-        return l_r, l_y, l_x, l_e, e_y, e_x
+        return l_r, l_x, l_y, l_e, e_y, e_x
     FuncAnimation(fig, upd, frames=len(idx), blit=True).save(MEDIA / "hero_lqg.gif", writer=PillowWriter(fps=15), dpi=70)
     plt.close(fig)
 print(cmp_); print(res)
