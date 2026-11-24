@@ -379,7 +379,7 @@
   "ours": 0.015026584745408807,
   "abs_tol": 0.005,
   "match": false,
-  "note": "ours is 1-2 % higher; cause not identified (Bd row 4 differs in the report)"
+  "note": "ours is 1-2 % higher; cause not identified (using the 4-decimal Bd printed in the report does not reproduce it)"
  },
  {
   "item": "E3.mlx stored MATLAB output: eig(Ad - L Cd), 4-decimal Ad/Bd as typed in E3.mlx",
