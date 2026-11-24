@@ -4,7 +4,7 @@
 
 Course project for *Linear Control System Design* (SSY285), Nov 2024 - Jan 2025. Group project of three, three graded assignments (E1 model, E2 structure, E3 estimation and control).
 
-## TLDR (in brief)
+## TLDR
 
 ![Animation: a noisy load-voltage sensor, the true load voltage and the Kalman estimate follow a 5 Hz reference; the lower panel shows the estimate error staying smaller than the sensor error.](media/hero_lqg.gif)
 
